@@ -87,12 +87,13 @@ void main(){
 
     while(opcao != 6){
 
+        printf("MATRIZ:\n---------------------------\n");
         for(int i = 0; i < l.size; i++){
             printf("%d ", l.lista[i]);
         }
-        printf("\n\n");
+        printf("\n---------------------------\n\n");
 
-        printf("Selecione a opcao desejada: \n1 - Adicionar elemento\n2 - Buscar elemento\n3 - Remover por indice\n4 - Remover por valor\n5 - Inverter\n6 - Sair\n\n");
+        printf("---------------------------\nSelecione a opcao desejada: \n1 - Adicionar elemento\n2 - Buscar elemento\n3 - Remover por indice\n4 - Remover por valor\n5 - Inverter\n6 - Sair\n---------------------------\n\n");
         scanf("%d", &opcao);
 
         if(opcao == 1){
