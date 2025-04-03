@@ -77,6 +77,38 @@ int RemoveIndex(Lista* l, int index){
     return 1;
 }
 
+//REMOVER ELEMENTO POR NUMERO
+int RemoveValue(Lista* l, int val){
+    Nodo* removido = l->cabeca;
+    int index = -1;
+
+    for(int i=0; i!=l->tamanho; i++){
+        if(removido->info == val){
+            index = i;
+            break;
+        }
+        removido = removido->prox;
+    }
+
+    if(index == -1) return 0;
+    
+    if(index == 0){
+        l->cabeca = removido->prox;
+        free(removido);
+    } else {
+        Nodo* anterior = l->cabeca;
+        for(int i = 0; i!=index-1; i++)
+            anterior = anterior->prox;
+        
+        removido = anterior->prox;
+        anterior->prox = removido->prox;
+        free(removido);
+    }
+
+    l->tamanho--;
+    return 1;
+}
+
 // MAIN
 int main(){
     Lista* lista = (Lista*) malloc (sizeof(Lista));
@@ -103,40 +135,38 @@ int main(){
             printf("Digite o indice onde o valor sera adicionado: ");
             scanf("%d", &index);
 
-            if(Add(lista, index, valor) == 0){
-                printf("Indice fora dos limites\n\n");
-            } else {
-                printf("Valor adicionado com sucesso\n\n");
-            }
-
+            if(Add(lista, index, valor) == 0)
+                printf("\nIndice fora dos limites\n\n");
+            else 
+                printf("\nValor adicionado com sucesso\n\n");
+            
         } else if(opcao == 2){
             printf("Digite o valor a ser buscado: ");
             scanf("%d", &valor);
 
-            if(Get(lista, valor) == -1){
-                printf("Valor nao encontrado\n\n");
-            } else {
-                printf("O valor esta na posicao %d\n\n", Get(lista, valor));
-            }
+            if(Get(lista, valor) == -1)
+                printf("\nValor nao encontrado\n\n");
+            else 
+                printf("\n{O valor esta na posicao %d}\n\n", Get(lista, valor));
+            
         } else if(opcao == 3){
             printf("Digite o indice do numero a ser excluido: ");
             scanf("%d", &index);
 
-            if(RemoveIndex(lista, index) == 0){
-                printf("Erro ao excluir valor\n\n");
-            } else {
-                printf("O valor no indice %d foi excluido com sucesso\n\n", index);
-            }
+            if(RemoveIndex(lista, index) == 0)
+                printf("\nIndice fora dos limites\n\n");
+            else 
+                printf("\nO valor no indice %d foi excluido com sucesso\n\n", index);
 
-        }/* else if (opcao == 4){
+        } else if (opcao == 4){
             printf("Digite o numero a ser excluido: ");
             scanf("%d", &valor);
 
-            if(removeValue(valor, &l) == -1){
-                printf("Erro ao excluir valor\n\n");
+            if(RemoveValue(lista, valor) == 0){
+                printf("Valor nao encontrado\n\n");
             } else {
                 printf("O valor %d foi excluido com sucesso\n\n", valor);
             }
-        }*/
+        }
     }
 }
