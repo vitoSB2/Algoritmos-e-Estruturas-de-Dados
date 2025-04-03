@@ -6,7 +6,7 @@ typedef struct n{
     struct n* prox;
 } Nodo;
 
-void NodoConstrutor(int val, Nodo* n){
+void nodoConstrutor(int val, Nodo* n){
     n->info = val;
     n->prox = NULL;
 }
@@ -17,17 +17,17 @@ typedef struct l{
     Nodo* cabeca;
 } Lista;
 
-void ListaConstrutor(Lista* l){
+void listaConstrutor(Lista* l){
     l->cabeca = NULL;
     l->tamanho = 0;
 }
 
 //ADICIONAR ELEMENTO
-int Add(Lista* l, int index, int val){
+int add(Lista* l, int index, int val){
     if(index>l->tamanho || index<0 ) return 0;
 
     Nodo* novo = (Nodo*) malloc (sizeof(Nodo));
-    NodoConstrutor(val, novo);
+    nodoConstrutor(val, novo);
     if(index == 0){
         novo->prox = l->cabeca;
         l->cabeca = novo;
@@ -44,7 +44,7 @@ int Add(Lista* l, int index, int val){
 }
 
 //BUSCAR ELEMENTO
-int Get(Lista* l, int val){
+int get(Lista* l, int val){
     Nodo* buscado = l->cabeca;
     for(int i=0; i!=l->tamanho; i++){
         if(buscado->info == val){
@@ -56,10 +56,10 @@ int Get(Lista* l, int val){
 }
 
 //REMOVER ELEMENTO POR INDICE
-int RemoveIndex(Lista* l, int index){
-    if(index>l->tamanho || index<0 ) return 0;
+int removeIndex(Lista* l, int index){
+    if(index>=l->tamanho || index<0 ) return 0;
 
-    Nodo* removido = l->cabeca;
+    Nodo* removido;
     if(index == 0){
         l->cabeca = removido->prox;
         free(removido);
@@ -78,7 +78,7 @@ int RemoveIndex(Lista* l, int index){
 }
 
 //REMOVER ELEMENTO POR NUMERO
-int RemoveValue(Lista* l, int val){
+int removeValue(Lista* l, int val){
     Nodo* removido = l->cabeca;
     int index = -1;
 
@@ -109,24 +109,43 @@ int RemoveValue(Lista* l, int val){
     return 1;
 }
 
-// MAIN
-int main(){
-    Lista* lista = (Lista*) malloc (sizeof(Lista));
-    ListaConstrutor(lista);
-    int opcao = 0, valor, index;
+//INSERIR ELEMENTO NA FRENTE
+int insertFront(Lista* l, int val){
+
+    return add(l, 0, val);
+}
+
+//INSERIR ELEMENTO NO FUNDO
+int insertBack(Lista* l, int val){
+
+    return add(l, l->tamanho, val);
+}
+
+void showList(Lista* l){
     Nodo* representacao;
-
-    while(opcao != 5){
-
-        representacao = lista->cabeca;
-        printf("MATRIZ:\n---------------------------\n");
-        for(int i = 0; i < lista->tamanho; i++){
+    representacao = l->cabeca;
+        printf("LISTA:\n---------------------------\n");
+        for(int i = 0; i < l->tamanho; i++){
             printf("%d - ", representacao->info);
             representacao = representacao->prox;
         }
-        printf("\n---------------------------\n\n");
+        printf("\n---------------------------\n");
+}
 
-        printf("---------------------------\nSelecione a opcao desejada: \n1 - Adicionar elemento\n2 - Buscar elemento\n3 - Remover por indice\n4 - Remover por valor\n5 - Sair\n---------------------------\n\n");
+// MAIN
+int main(){
+    Lista* lista = (Lista*) malloc (sizeof(Lista));
+    listaConstrutor(lista);
+    int opcao = 0, valor, index;
+    
+
+    while(opcao != 7){
+
+        showList(lista);
+
+        printf("---------------------------\nSelecione a opcao desejada: \n1 - Adicionar elemento");
+        printf("\n2 - Buscar elemento\n3 - Remover por indice\n4 - Remover por valor\n5 - Inserir valor na frente");
+        printf("\n6 - Inserir valor no fundo\n7 - Sair\n---------------------------\n\n");
         scanf("%d", &opcao);
 
         if(opcao == 1){
@@ -135,7 +154,7 @@ int main(){
             printf("Digite o indice onde o valor sera adicionado: ");
             scanf("%d", &index);
 
-            if(Add(lista, index, valor) == 0)
+            if(add(lista, index, valor) == 0)
                 printf("\nIndice fora dos limites\n\n");
             else 
                 printf("\nValor adicionado com sucesso\n\n");
@@ -144,29 +163,41 @@ int main(){
             printf("Digite o valor a ser buscado: ");
             scanf("%d", &valor);
 
-            if(Get(lista, valor) == -1)
+            if(get(lista, valor) == -1)
                 printf("\nValor nao encontrado\n\n");
             else 
-                printf("\n{O valor esta na posicao %d}\n\n", Get(lista, valor));
+                printf("\n{O valor esta na posicao %d}\n\n", get(lista, valor));
             
         } else if(opcao == 3){
             printf("Digite o indice do numero a ser excluido: ");
             scanf("%d", &index);
 
-            if(RemoveIndex(lista, index) == 0)
+            if(removeIndex(lista, index) == 0)
                 printf("\nIndice fora dos limites\n\n");
             else 
                 printf("\nO valor no indice %d foi excluido com sucesso\n\n", index);
 
-        } else if (opcao == 4){
+        } else if(opcao == 4){
             printf("Digite o numero a ser excluido: ");
             scanf("%d", &valor);
 
-            if(RemoveValue(lista, valor) == 0){
+            if(removeValue(lista, valor) == 0){
                 printf("Valor nao encontrado\n\n");
             } else {
                 printf("O valor %d foi excluido com sucesso\n\n", valor);
             }
+        } else if(opcao == 5){
+            printf("Digite o valor a ser adicionado: ");
+            scanf("%d", &valor);
+
+            insertFront(lista, valor);
+            printf("\nValor adicionado com sucesso\n\n");
+        } else if(opcao == 6){
+            printf("Digite o valor a ser adicionado: ");
+            scanf("%d", &valor);
+
+            insertBack(lista, valor);
+            printf("\nValor adicionado com sucesso\n\n");
         }
     }
 }
