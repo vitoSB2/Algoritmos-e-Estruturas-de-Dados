@@ -59,10 +59,11 @@ int get(Lista* l, int val){
 int removeIndex(Lista* l, int index){
     if(index>=l->tamanho || index<0 ) return 0;
 
-    Nodo* removido;
+    Nodo* removido = l->cabeca;
     if(index == 0){
         l->cabeca = removido->prox;
         free(removido);
+
     } else {
         Nodo* anterior = l->cabeca;
         for(int i = 0; i!=index-1; i++)
@@ -70,8 +71,11 @@ int removeIndex(Lista* l, int index){
         
         removido = anterior->prox;
         anterior->prox = removido->prox;
+
         free(removido);
     }
+
+    printf("foi");
 
     l->tamanho--;
     return 1;
@@ -79,34 +83,7 @@ int removeIndex(Lista* l, int index){
 
 //REMOVER ELEMENTO POR NUMERO
 int removeValue(Lista* l, int val){
-    Nodo* removido = l->cabeca;
-    int index = -1;
-
-    for(int i=0; i!=l->tamanho; i++){
-        if(removido->info == val){
-            index = i;
-            break;
-        }
-        removido = removido->prox;
-    }
-
-    if(index == -1) return 0;
-    
-    if(index == 0){
-        l->cabeca = removido->prox;
-        free(removido);
-    } else {
-        Nodo* anterior = l->cabeca;
-        for(int i = 0; i!=index-1; i++)
-            anterior = anterior->prox;
-        
-        removido = anterior->prox;
-        anterior->prox = removido->prox;
-        free(removido);
-    }
-
-    l->tamanho--;
-    return 1;
+    return removeIndex(l, get(l, val));
 }
 
 //INSERIR ELEMENTO NA FRENTE
