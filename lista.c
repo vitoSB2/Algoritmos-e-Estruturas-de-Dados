@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #define cap 2
-// teste
+
 struct List{
     int size;
     int capacity;
