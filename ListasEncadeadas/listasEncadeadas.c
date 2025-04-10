@@ -9,7 +9,7 @@ int main(){
 
     while(opcao != 7){
         
-        showList(lista);
+        showAll(lista);
         scanf("%d", &opcao);
 
         if(opcao == 1){

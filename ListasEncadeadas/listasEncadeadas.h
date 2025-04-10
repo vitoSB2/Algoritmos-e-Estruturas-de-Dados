@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-
 // NODO
 typedef struct n{
     int info;
@@ -87,8 +86,41 @@ int insertBack(Lista* l, int val){
     return add(l, l->tamanho, val);
 }
 
+//CONCATENAR LISTAS
+Lista* concatenar(Lista *l1, Lista *l2){
+    Nodo* pont = l1->cabeca;
+    while(pont->prox != NULL)
+        pont = pont->prox;
+    pont->prox = l2->cabeca;
+    l1->tamanho += l2->tamanho;
+    free(l2);
+    return l1;
+}
+
+//DESCOBRIR TAMANHO PELA CABEÇA
+int countList(Nodo* cabeca){
+    int tamanho = 0;
+    while(cabeca != NULL){
+        cabeca = cabeca->prox;
+        tamanho++;
+    }
+    return tamanho;
+}
+
 //MOSTRAR A LISTA
-void showList(Lista* l){
+void showList(Lista* l, int nLista){
+    Nodo* representacao;
+    representacao = l->cabeca;
+    printf("LISTA%d:\n---------------------------\n", nLista);
+    for(int i = 0; i < l->tamanho; i++){ 
+        printf("%d - ", representacao->info);
+        representacao = representacao->prox;
+    }
+    printf("\n---------------------------\n");
+}
+
+//MOSTRAR A LISTA E AS OPCOES
+void showAll(Lista* l){
     Nodo* representacao;
     representacao = l->cabeca;
     printf("LISTA:\n---------------------------\n");
