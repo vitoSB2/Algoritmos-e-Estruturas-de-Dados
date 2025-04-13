@@ -8,7 +8,7 @@ int main(){
     listaConstrutor(lista2);
     int opcao = 0, valor, index;
 
-    while(opcao != 6){
+    while(opcao != 7){
         
         
         showList(lista1, 1);
@@ -19,8 +19,8 @@ int main(){
         printf("---------------------------\n");
         printf("Selecione a opcao desejada: \n\n");
         printf("1 - Adicionar na Lista1\n2 - Adicionar na Lista2\n3 - Remover na Lista1\n");
-        printf("4 - Remover na Lista2\n5 - Concatenar Listas\n");
-        printf("6 - Sair\n---------------------------\n\n");
+        printf("4 - Remover na Lista2\n5 - Concatenar Listas\n6 - Concatenar Listas 2\n");
+        printf("7 - Sair\n---------------------------\n\n");
         scanf("%d", &opcao);
 
         if(opcao == 1){
@@ -62,7 +62,22 @@ int main(){
         } else if(opcao == 5){
             printf("\nLISTA CONCATENADA: \n");
             showList(concatenar(lista1, lista2), 0);
+            printf("\n\n\n");
 
+            free(lista2);
+            lista2 = (Lista*) malloc (sizeof(Lista));
+            listaConstrutor(lista2);
+
+        } else if(opcao == 6){
+            printf("\nLISTA CONCATENADA: \n");
+            Lista* listaConcatenada = concatenar2(lista1, lista2);
+            showList(listaConcatenada, 0);
+            printf("\n\n\n");
+
+            free(lista1);
+            free(lista2);
+
+            lista1 = listaConcatenada;
             lista2 = (Lista*) malloc (sizeof(Lista));
             listaConstrutor(lista2);
 

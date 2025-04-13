@@ -93,8 +93,28 @@ Lista* concatenar(Lista *l1, Lista *l2){
         pont = pont->prox;
     pont->prox = l2->cabeca;
     l1->tamanho += l2->tamanho;
-    free(l2);
     return l1;
+}
+
+//CONCATENAR LISTAS (CRIANDO TUDO)
+Lista* concatenar2(Lista *l1, Lista *l2){
+    Lista* l3 = (Lista*) malloc (sizeof(Lista));
+    listaConstrutor(l3);
+
+    Nodo* pont = l1->cabeca;
+    for(int i=0; i<l1->tamanho; i++){
+        add(l3, i, pont->info);
+        pont = pont->prox;
+    }
+
+    pont = l2->cabeca;
+    for(int i=l1->tamanho; i < (l1->tamanho+l2->tamanho); i++){
+        add(l3, i, pont->info);
+        pont = pont->prox;
+    }
+
+    l3->tamanho = l1->tamanho + l2->tamanho;
+    return l3;
 }
 
 //DESCOBRIR TAMANHO PELA CABEÇA
