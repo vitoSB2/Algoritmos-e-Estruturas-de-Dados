@@ -35,59 +35,53 @@ int top(Pilha *p, char *resultado){
 }
 
 int palindromo(Pilha *p){
-    int i = 0, j = p->topo;
-    while(i < j){
-        if(p->elementos[i] != p->elementos[j]) return 1;
-        i++;
-        j--;
+    if(p->topo == -1) return 1;
+
+    Pilha pilhaAux;
+    initPilha(&pilhaAux);
+    char letra; 
+    int tam = p->topo+1;
+
+    for(int i=0; i<tam/2; i++){
+        top(p, &letra);
+        push(&pilhaAux, letra);
+        pop(p);
     }
+
+    if((tam)%2 == 1){
+        top(p, &letra);
+        push(&pilhaAux, letra);
+    }
+
+    for(int i=0; i<tam/2; i++)
+        if(p->elementos[i] != pilhaAux.elementos[i])
+            return 2;
+
     return 0;
 }
+
 int main(){
     Pilha pilha;
     initPilha(&pilha);
-    int opcao;
-    char letra;
+    char palavra[MAX];
 
     printf("PILHA (LIFO)\n\n");
-    while(opcao != 5){
-        printf("MATRIZ:\n---------------------------\n");
-        for(int i = 0; i <= pilha.topo; i++){
-            printf("%c - ", pilha.elementos[i]);
-        }
-        printf("\n---------------------------\n\n");
 
-        printf("---------------------------\nSelecione a opcao desejada: \n1 - (PUSH) Adicionar elemento no topo\n2 - (POP) Remover elemento do topo\n3 - (TOP) Buscar elemento do topo\n4 - Descobrir de e um Palindromo\n5 - Sair\n---------------------------\n\n");
-        scanf("%d", &opcao);
+    printf("Escreva a palavra: ");
+    scanf("%s", &palavra);
 
-        if(opcao == 1){
-            printf("Digite o valor a ser adicionado: ");
-            scanf(" %c", &letra);
-
-            if(push(&pilha, letra) == 0)
-                printf("O valor foi adicionado com sucesso!\n\n");
-            else 
-                printf("A Pilha atingiu o seu limite!\n\n");
-
-        }else if(opcao == 2){
-            if(pop(&pilha) == 0)
-                printf("O topo foi removido com sucesso!\n\n");
-            else 
-                printf("A Pilha esta vazia!\n\n");
-
-        }else if(opcao == 3){
-            if(top(&pilha, &letra) == 0)
-                printf("<<<<< O topo e %c! >>>>>\n\n", letra);
-            else 
-                printf("A Pilha está vazia!\n\n");
-
-        }else if(opcao == 4){
-            if(palindromo(&pilha) == 0)
-                printf("A Pilha e um Palindromo!\n\n");
-            else 
-                printf("A Pilha nao e um Palindromo!\n\n");
-
-        }else
-            printf("Finalizando as operacoes...");
+    for(int i=0; palavra[i] != '\0'; i++){
+        push(&pilha, palavra[i]);
     }
+
+    printf("MATRIZ:\n---------------------------\n");
+    for(int i = 0; i <= pilha.topo; i++)
+        printf("%c - ", pilha.elementos[i]);
+    printf("\n---------------------------\n\n");
+
+    if(palindromo(&pilha) == 0)
+        printf("E um Palindromo!");
+    else
+        printf("Nao e um Palindromo :(");
+
 }
